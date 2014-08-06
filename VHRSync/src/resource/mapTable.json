@@ -1,0 +1,53 @@
+{
+	"data": [
+		{
+			"title": "Danh mục thống nhất toàn cầu",
+			"table": ["SYS_CAT_TYPE","EMP_TYPE","LANGUAGE","NATION","WORKDAY_TYPE"]
+		},{
+			"title": "Danh mục dùng chung",
+			"table": ["SYS_CAT"]
+		},{
+			"title": "Danh mục chia theo domain",
+			"table": ["ALLOWANCE","DIAGNOSE_PLACE","DOCUMENT_REASON","DOCUMENT_TYPE","ABOUR_CONTRACT_DETAIL","LABOUR_CONTRACT_TYPE","LANGUAGE_DEGREE","LONG_LEAVE_REASON","POSITION","POSITION_GROUP","POSITION_POSITION_GROUP","PROVINCE","SALARY_TABLE","SALARY_GRADE","POSITION_WAGE"]
+		},{
+			"title": "Đơn vị",
+			"table": ["ORGANIZATION","ORG_RELATION","SALARY_ORGANIZATION"]
+		},{
+			"title": "Thông tin chung nhân viên",
+			"table": ["EMPLOYEE","BANK_ACCOUNT","EMP_FILE","OTHER_PARTY"]
+		},{
+			"title": "Quá trình diện đối tượng",
+			"table": ["EMP_TYPE_PROCESS"]
+		},{
+			"title": "Quá trình công tác",
+			"table": ["WORK_PROCESS","TRANSFER_PROCESS"]
+		},{
+			"title": "Quá trình đào tạo",
+			"table": ["EDUCATION_PROCESS","EMP_LANGUAGE_DEGREE","EMP_POLITICAL_DEGREE"]
+		},{
+			"title": "Quá trình khen thưởng",
+			"table": ["REWARD"]
+		},{
+			"title": "Quá trình kỉ luật",
+			"table": ["PUNISHMENT"]
+		},{
+			"title": "Quá trình nghỉ dài ngày",
+			"table": ["LONG_LEAVE"]
+		},{
+			"title": "Quan hệ gia đình",
+			"table": ["FAMILY_RELATIONSHIP"]
+		},{
+			"title": "Thông tin sức khỏe",
+			"table": ["HEALTH_INFO"]
+		},{
+			"title": "Diễn biến lương phụ cấp",
+			"table": ["SALARY_PROCESS","POSITION_SALARY","SALARY_INCREASE","INSURANCE_SALARY_PROCESS","EMP_ALLOWANCE_PROCESS"]
+		},{
+			"title": "Dữ liệu chấm công",
+			"table": ["EMO_TIMEKEEPING"]
+		},{
+			"title": "Tất cả",
+			"table": ["EMPLOYEE","BANK_ACCOUNT","OTHER_PARTY","EMP_FILE","EMP_LANGUAGE_DEGREE","EMP_POLITICAL_DEGREE","EMP_TYPE_PROCESS","WORK_PROCESS","REWARD","PUNISHMENT","LONG_LEAVE","FAMILY_RELATIONSHIP","HEALTH_INFO","SALARY_PROCESS","POSITION_SALARY","SALARY_INCREASE","INSURANCE_SALARY_PROCESS","EDUCATION_PROCESS","EMP_ALLOWANCE_PROCESS"]
+		}
+	]
+}

@@ -1,0 +1,23 @@
+{
+    "emptyTable":     "Không có bản ghi nào",
+    "info":           "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+    "infoEmpty":      "Hiển thị 0 đến 0 of 0 bản ghi",
+    "infoFiltered":   "(Lọc từ _MAX_ tổng số bản ghi)",
+    "infoPostFix":    "",
+    "thousands":      ",",
+    "lengthMenu":     "Hiển thị _MENU_ bản ghi",
+    "loadingRecords": "Đang tải...",
+    "processing":     "Đang xử lý...",
+    "search":         "Tìm kiếm:",
+    "zeroRecords":    "Không có bản ghi nào được tìm thấy",
+    "paginate": {
+        "first":      "Trang đầu",
+        "last":       "Trang cuối",
+        "next":       "Tiếp theo",
+        "previous":   "Trước"
+    },
+    "aria": {
+        "sortAscending":  ": Sắp xếp theo thứ tự tăng dần",
+        "sortDescending": ": Sắp xếp theo tứ tự giảm dần"
+    }
+}

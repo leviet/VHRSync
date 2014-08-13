@@ -24,6 +24,9 @@ public class GsyncTableReloadRequest implements Serializable {
 	@EmbeddedId
 	private GsyncTableReloadRequestPK id;
 
+	@Column(name="ROWID", insertable = false, updatable=false)
+	private String rowId;
+
 	@Column(name="CREATE_TIME")
 	private Timestamp createTime;
 
@@ -48,6 +51,15 @@ public class GsyncTableReloadRequest implements Serializable {
 	private Timestamp reloadTime;
 
 	public GsyncTableReloadRequest() {
+	}
+	
+	
+	public String getRowId() {
+		return rowId;
+	}
+
+	public void setRowId(String rowId) {
+		this.rowId = rowId;
 	}
 
 	public GsyncTableReloadRequestPK getId() {

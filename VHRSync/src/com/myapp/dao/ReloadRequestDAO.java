@@ -124,8 +124,10 @@ public class ReloadRequestDAO {
 
 			DataProvider dataProvider = new DataProvider();
 			long id = putLogReloadRequest(fromDate, toDate, sourceNode, userRequest);
-			if(dataProvider.insert(requestReload))
+			if(dataProvider.insert(requestReload)){
+				System.out.print("ReloadRequestDAO.class: RowId of record is: "+requestReload.getRowId());
 				return "OK";
+				}
 			return "ER";
 		} catch (Exception e) {
 			e.printStackTrace();

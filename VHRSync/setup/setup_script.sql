@@ -122,8 +122,8 @@ insert into gsync_trigger(trigger_id, source_catalog_name, source_schema_name, s
 insert into gsync_trigger(trigger_id, source_catalog_name, source_schema_name, source_table_name, channel_id, create_time, last_update_by, last_update_time)
     values ('vhr_td_position_wage', null, null, 'POSITION_WAGE', 'vhr_td_vhrdata', current_timestamp, 'gsync_admin', current_timestamp);
 -- ORGANIZATION
-insert into gsync_trigger(trigger_id, source_catalog_name, source_schema_name, source_table_name, channel_id, create_time, last_update_by, last_update_time)
-    values ('vhr_td_organization', null, null, 'ORGANIZATION', 'vhr_td_vhrdata', current_timestamp, 'gsync_admin', current_timestamp);
+insert into gsync_trigger(trigger_id, source_catalog_name, source_schema_name, source_table_name, channel_id, sync_on_incoming_batch, create_time, last_update_by, last_update_time)
+    values ('vhr_td_organization', null, null, 'ORGANIZATION', 'vhr_td_vhrdata', 1, current_timestamp, 'gsync_admin', current_timestamp);
 -- ORG_RELATION
 insert into gsync_trigger(trigger_id, source_catalog_name, source_schema_name, source_table_name, channel_id, create_time, last_update_by, last_update_time)
     values ('vhr_td_org_relation', null, null, 'ORG_RELATION', 'vhr_td_vhrdata', current_timestamp, 'gsync_admin', current_timestamp);
@@ -294,10 +294,10 @@ insert into gsync_trigger_router(trigger_id, router_id, enabled, initial_load_or
     values ('vhr_td_province', 'vhr_td_vhrdata_2_vhr_vtc', 1, 52, current_timestamp, 'gsync_admin', current_timestamp);
 -- ORGANIZATION
 insert into gsync_trigger_router(trigger_id, router_id, enabled, initial_load_order, initial_load_select, create_time, last_update_by, last_update_time)
-    values ('vhr_td_organization', 'vhr_td_vhrdata_2_vhr_vtc', 1, 52,'1=1 AND PATH like ''/148841/%'' or ORG_CODE_PATH like ''/TCT/%'' start with ORG_PARENT_ID is NULL connect by ORG_PARENT_ID = PRIOR ORGANIZATION_ID', current_timestamp, 'gsync_admin', current_timestamp);
+    values ('vhr_td_organization', 'vhr_td_vhrdata_2_vhr_vtc', 1, 52,'1=1 start with ORG_PARENT_ID is NULL connect by ORG_PARENT_ID = PRIOR ORGANIZATION_ID', current_timestamp, 'gsync_admin', current_timestamp);
 -- ORG_RELATION
 insert into gsync_trigger_router(trigger_id, router_id, enabled, initial_load_order, initial_load_select, create_time, last_update_by, last_update_time)
-    values ('vhr_td_org_relation', 'vhr_td_vhrdata_2_vhr_vtc', 1, 53, '1=1 AND (ORGANIZATION_ID IN (select ORGANIZATION_ID from ORGANIZATION where ORG_CODE_PATH like ''/TCT/%'')) AND  (RELATIVE_ORGANIZATION_ID IN (select ORGANIZATION_ID from ORGANIZATION where ORG_CODE_PATH like ''/TCT/%''))', current_timestamp, 'gsync_admin', current_timestamp);
+    values ('vhr_td_org_relation', 'vhr_td_vhrdata_2_vhr_vtc', 1, 53, null, current_timestamp, 'gsync_admin', current_timestamp);
 -- SALARY_ORGANIZATION
 insert into gsync_trigger_router(trigger_id, router_id, enabled, initial_load_order, initial_load_select, create_time, last_update_by, last_update_time)
     values ('vhr_td_salary_organization', 'vhr_td_vhrdata_2_vhr_vtc', 1, 51,'1 = 1 start with PARENT_ID is NULL connect by PARENT_ID = PRIOR SALARY_ORGANIZATION_ID', current_timestamp, 'gsync_admin', current_timestamp);
@@ -378,10 +378,10 @@ insert into gsync_trigger_router(trigger_id, router_id, enabled, initial_load_or
 
 -- ORGANIZATION 
 insert into gsync_trigger_router(trigger_id, router_id, enabled, initial_load_order, initial_load_select, create_time, last_update_by, last_update_time)
-values ('vhr_td_organization', 'vhr_vtc_vhrdata_2_vhr_td', 1, 52,'1=1 start with ORG_PARENT_ID is NULL connect by ORG_PARENT_ID = PRIOR ORGANIZATION_ID', current_timestamp, 'gsync_admin', current_timestamp);
+values ('vhr_td_organization', 'vhr_vtc_vhrdata_2_vhr_td', 1, 52,'1=1 AND ORG_CODE_PATH like ''/TCT/VIG/50C/GIV/VCA/%'' start with ORG_PARENT_ID is NULL connect by ORG_PARENT_ID = PRIOR ORGANIZATION_ID', current_timestamp, 'gsync_admin', current_timestamp);
 -- ORG_RELATION
 insert into gsync_trigger_router(trigger_id, router_id, enabled, initial_load_order, initial_load_select, create_time, last_update_by, last_update_time)
-    values ('vhr_td_org_relation', 'vhr_vtc_vhrdata_2_vhr_td', 1, 53, null, current_timestamp, 'gsync_admin', current_timestamp);
+    values ('vhr_td_org_relation', 'vhr_vtc_vhrdata_2_vhr_td', 1, 53, '1=1 AND ORGANIZATION_ID IN (SELECT ORGANIZATION_ID FROM ORGANIZATION WHERE ORG_CODE_PATH like ''/TCT/VIG/50C/GIV/VCA/%'') AND RELATIVE_ORGANIZATION_ID IN (SELECT ORGANIZATION_ID FROM ORGANIZATION WHERE ORG_CODE_PATH like ''/TCT/VIG/50C/GIV/VCA/%'')', current_timestamp, 'gsync_admin', current_timestamp);
 -- SALARY_ORGANIZATION
 insert into gsync_trigger_router(trigger_id, router_id, enabled, initial_load_order, initial_load_select, create_time, last_update_by, last_update_time)
     values ('vhr_td_salary_organization', 'vhr_vtc_vhrdata_2_vhr_td', 1, 53,null, current_timestamp, 'gsync_admin', current_timestamp);
@@ -1292,9 +1292,9 @@ insert into gsync_transform_column(transform_id, include_on, target_column_name,
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
     values ('vhr_td_organization', 'I', 'ABBREVIATION', 'ABBREVIATION', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                     
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
-    values ('vhr_td_organization', 'I', 'ENGLISH_NAME', 'NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                     
-insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
-    values ('vhr_td_organization', 'I', 'NAME', 'ENGLISH_NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
+    values ('vhr_td_organization', 'I', 'ENGLISH_NAME', 'NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
+insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_expression, transform_order, create_time, last_update_by, last_update_time)
+    values ('vhr_td_organization', 'I', 'NAME', 'ENGLISH_NAME', 0, 'bsh', 'currentValue == null ? "_untranslated_ " + NAME : currentValue;', 11, current_timestamp, 'gsync_admin', current_timestamp);
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
     values ('vhr_td_organization', 'I', 'CODE', 'CODE', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
@@ -1384,10 +1384,10 @@ insert into gsync_transform_column(transform_id, include_on, target_column_name,
     values ('vhr_td_organization', 'U', 'ESTABLISH_DECIDE_NUM', 'ESTABLISH_DECIDE_NUM', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                     
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
     values ('vhr_td_organization', 'U', 'ABBREVIATION', 'ABBREVIATION', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                     
+insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_expression, transform_order, create_time, last_update_by, last_update_time)
+    values ('vhr_td_organization', 'U', 'NAME', 'ENGLISH_NAME', 0, 'bsh', 'currentValue == null ? "_untranslated_ " + NAME : currentValue;', 11, current_timestamp, 'gsync_admin', current_timestamp);
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
-    values ('vhr_td_organization', 'U', 'ENGLISH_NAME', 'NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                     
-insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
-    values ('vhr_td_organization', 'U', 'NAME', 'ENGLISH_NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
+    values ('vhr_td_organization', 'U', 'ENGLISH_NAME', 'NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
     values ('vhr_td_organization', 'U', 'CODE', 'CODE', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
@@ -1622,10 +1622,10 @@ insert into gsync_transform_column(transform_id, include_on, target_column_name,
     values ('vhr_vtc_organization', 'I', 'ESTABLISH_DECIDE_NUM', 'ESTABLISH_DECIDE_NUM', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                     
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
     values ('vhr_vtc_organization', 'I', 'ABBREVIATION', 'ABBREVIATION', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                     
+insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_expression, transform_order, create_time, last_update_by, last_update_time)
+    values ('vhr_vtc_organization', 'I', 'NAME', 'ENGLISH_NAME', 0, 'bsh', 'currentValue == null ? "_untranslated_ " + NAME : currentValue;', 11, current_timestamp, 'gsync_admin', current_timestamp);
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
-    values ('vhr_vtc_organization', 'I', 'ENGLISH_NAME', 'NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                     
-insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
-    values ('vhr_vtc_organization', 'I', 'NAME', 'ENGLISH_NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
+    values ('vhr_vtc_organization', 'I', 'ENGLISH_NAME', 'NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
     values ('vhr_vtc_organization', 'I', 'CODE', 'CODE', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
@@ -1715,10 +1715,10 @@ insert into gsync_transform_column(transform_id, include_on, target_column_name,
     values ('vhr_vtc_organization', 'U', 'ESTABLISH_DECIDE_NUM', 'ESTABLISH_DECIDE_NUM', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                     
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
     values ('vhr_vtc_organization', 'U', 'ABBREVIATION', 'ABBREVIATION', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                     
+insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_expression, transform_order, create_time, last_update_by, last_update_time)
+    values ('vhr_vtc_organization', 'U', 'NAME', 'ENGLISH_NAME', 0, 'bsh', 'currentValue == null ? "_untranslated_ " + NAME : currentValue;', 11, current_timestamp, 'gsync_admin', current_timestamp);
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
-    values ('vhr_vtc_organization', 'U', 'ENGLISH_NAME', 'NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                     
-insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
-    values ('vhr_vtc_organization', 'U', 'NAME', 'ENGLISH_NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
+    values ('vhr_vtc_organization', 'U', 'ENGLISH_NAME', 'NAME', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)
     values ('vhr_vtc_organization', 'U', 'CODE', 'CODE', 0, 'copy', 11, current_timestamp, 'gsync_admin', current_timestamp);                                                     
 insert into gsync_transform_column(transform_id, include_on, target_column_name, source_column_name, pk, transform_type, transform_order, create_time, last_update_by, last_update_time)

@@ -119,12 +119,20 @@ public class ReloadEmployeeTimeKeeping extends HttpServlet {
 								.print("Chỉ cho phép đồng bộ dữ liệu trong tối đa 1 tháng!");
 						return;
 					}
+					cal.add(Calendar.MONTH, 1);
+
+					toDate = cal.getTime();
 					service = new ReloadRequestServiceImpl();
 					String rerult = service.putReloadRequest(fromDate, toDate,
 							SOURCE_NODE_ID, USER_UPDATE);
-					response.setStatus(200);
-					response.getWriter()
-							.print("Yêu cầu đồng bộ đã được ghi nhận, đợi trong ít phút để hoàn thành quá trình đồng bộ!");
+					if("OK".equals(rerult)){
+						response.setStatus(200);
+						response.getWriter()
+								.print("Yêu cầu đồng bộ đã được ghi nhận, đợi trong ít phút để hoàn thành quá trình đồng bộ!");
+					}{
+						response.getWriter()
+						.print("Chờ yêu cầu đồng bộ trước hoàn thành!");
+					}
 				} else {
 					response.getWriter().print(
 							"Ngày kết thúc không được bỏ trống!");
